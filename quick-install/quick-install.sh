@@ -5,7 +5,6 @@ set -e
 echo "clone repository..."
 git clone https://github.com/simkinhu/shareflowadmin.git shareflowadmin
 
-
 # 设置目录名
 dir_name="list"
 # 检查目录是否存在
@@ -19,7 +18,7 @@ else
     chmod -R 755 "$dir_name"
     echo "已创建目录 '$dir_name' 并设置权限为 755。"
 fi
-cd xyhelpercarlist
+cd shareflowadmin
 mv dist/* ../list
 cd ..
 chmod -R 755 list
@@ -76,9 +75,81 @@ else
     echo "映射存在"
 fi
 
-rm -rf xyhelpercarlist
-rm -rf quick-list.sh
+# 提示用户输入后端主域名
+read -p "请输入后端绑定使用的主域名（格式http(s)://xx.xx.xx，不带/）: " backend_domain
+if [[ ! "$backend_domain" =~ ^https?://[a-zA-Z0-9.-]+$ ]]; then
+    echo "输入的后端主域名格式不正确。"
+    exit 1
+fi
+
+# 更新 config.json 中的 VITE_API_BASE_URL
+config_file="./list/config.json"
+if [ -f "$config_file" ]; then
+    sed -i "s|\"VITE_API_BASE_URL\": \".*\"|\"VITE_API_BASE_URL\": \"$backend_domain\"|" "$config_file"
+    echo "已更新 前端接口地址为中的 VITE_API_BASE_URL 为 $backend_domain"
+else
+    echo "config.json 文件不存在，无法更新 VITE_API_BASE_URL。"
+    exit 1
+fi
+
+# 提示用户输入哈希值
+read -p "请输入哈希值: " hash_value
+
+# 在 docker-compose.yml 文件最后面添加内容
+cat <<EOF >> docker-compose.yml
+
+shareflowadmin:
+    image: simkinhu/shareflowadmin:latest
+    restart: always
+    ports:
+      - "8311:8311"
+    environment:
+      # 设置docker内部系统运行的时区，上海时间
+      TZ: Asia/Shanghai
+      # 数据库主机，默认不要更改
+      MYSQL_HOST: mysql
+      # 数据库端口，默认不要更改
+      MYSQL_PORT: 3306
+      # 数据库名称，默认不要更改
+      MYSQL_DB: cool
+      # 数据库账户，默认不要更改
+      MYSQL_DBUSER: root
+      # 数据库密码，默认不要更改
+      MYSQL_DBPWD: 123456
+      # redis主机，默认不要更改
+      SHARE_REDIS_HOST: redis
+      # redis端口，默认不要更改
+      SHARE_REDIS_PORT: 6379
+      # redis数据库，默认不要更改
+      SHARE_REDIS_DB: 5
+      # redis密码，默认为空
+      SHARE_REDIS_PWD:
+      # 系统授权KEY，生成规则：绑定的哈希值sha256，不可共享，一台机器使用！
+      SHARE_AUTHKEY: $hash_value
+      # 前端token名称，可随意自定义，尽量2-8位纯字母
+      SHARE_TOKEN_NAME: sharetoken
+      # 前端Token过期时间：单位-秒
+      SHARE_TOKEN_TIME: 2592000
+      # 默认不要更改，这个是share后台地址，批量添加账户需要
+      SHARE_ADMIN_URL: http://chatgpt-share-server:8001
+      # 设置的后台秘钥，批量添加账户需要 详情：https://chatgpt-share-server.xyhelper.cn/config/apiauth.html
+      SHARE_ADMIN_AUTH: xxx
+      # 生成的兑换码的长度（不包含下面CDK的前缀）
+      SHARE_CDK_LEN: 10
+      # 生成的兑换码的前缀
+      SHARE_CDK_LOAD: CCD
+      # 生成的兑换码的类型：1为全小写，2为全大写
+      SHARE_CDK_LETTER: 2
+      # 后台内部mysql监控账户
+      SHARE_MYSQLLOG_USER: share
+      # 后台内部mysql监控密码
+      SHARE_MYSQLLOG_PWD: 123456
+EOF
+
+rm -rf shareflowadmin
+rm -rf quick-install.sh
 docker compose pull
 docker compose up -d --remove-orphans
+
 ## 提示信息
 echo "已完成前端页面的更换"
