@@ -1,0 +1,4 @@
+{
+  "VITE_API_BASE_URL": "https://sadmin.3377ai.com",
+  "VITE_BASE_URL": "/list/"
+}
