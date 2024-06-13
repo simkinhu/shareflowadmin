@@ -37,42 +37,38 @@ fi
 # 检查是否已经存在该映射
 if grep -q "$check_volume" "$yaml_file"; then
     echo "映射 '$check_volume' 已存在，无需添加。"
-    rm -rf xyhelpercarlist
-    rm -rf quick-list.sh
-    echo "已完成前端页面的更换"
-    exit 0
-fi
-
-# 定义要添加的新映射
-new_volume="      - ./list:/app/resource/public/list"
-
-# 使用 awk 更新 docker-compose.yml
-awk -v new_volume="$new_volume" '
-BEGIN {
-    in_chatgpt_share_server = 0;
-    in_volumes = 0;
-}
-/chatgpt-share-server:/ {
-    in_chatgpt_share_server = 1;
-}
-in_chatgpt_share_server && /volumes:/ {
-    in_volumes = 1;
-    print;
-    next;
-}
-in_volumes && /^[ ]+- / {
-    print new_volume;
-    in_volumes = 0;
-    in_chatgpt_share_server = 0;
-}
-{ print }
-' docker-compose.yml > tmp_file && mv tmp_file docker-compose.yml
-
-# 添加成功后运行 Docker 命令
-if [ $? -eq 0 ]; then
-    echo "映射 '$new_volume' 添加成功"
 else
-    echo "映射存在"
+    # 定义要添加的新映射
+    new_volume="      - ./list:/app/resource/public/list"
+
+    # 使用 awk 更新 docker-compose.yml
+    awk -v new_volume="$new_volume" '
+    BEGIN {
+        in_chatgpt_share_server = 0;
+        in_volumes = 0;
+    }
+    /chatgpt-share-server:/ {
+        in_chatgpt_share_server = 1;
+    }
+    in_chatgpt_share_server && /volumes:/ {
+        in_volumes = 1;
+        print;
+        next;
+    }
+    in_volumes && /^[ ]+- / {
+        print new_volume;
+        in_volumes = 0;
+        in_chatgpt_share_server = 0;
+    }
+    { print }
+    ' docker-compose.yml > tmp_file && mv tmp_file docker-compose.yml
+
+    # 添加成功后运行 Docker 命令
+    if [ $? -eq 0 ]; then
+        echo "映射 '$new_volume' 添加成功"
+    else
+        echo "映射存在"
+    fi
 fi
 
 # 提示用户输入后端主域名
@@ -151,5 +147,12 @@ rm -rf quick-install.sh
 docker compose pull
 docker compose up -d --remove-orphans
 
-## 提示信息
-echo "已完成前端页面的更换"
+clear
+
+echo "--------------------------------------"
+echo "--- 已完成 shareflowadmin 系统的安装"
+echo "--- 请等待容器启动完成"
+echo "--- 后台用户名：admin"
+echo "--- 后台密码：admin123"
+echo "--- 后台地址：${backend_domain}/shareadmin"
+echo "--------------------------------------"
