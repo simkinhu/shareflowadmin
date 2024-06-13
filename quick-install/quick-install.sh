@@ -18,6 +18,7 @@ else
     chmod -R 755 "$dir_name"
     echo "已创建目录 '$dir_name' 并设置权限为 755。"
 fi
+
 cd shareflowadmin
 mv dist/* ../list
 cd ..
@@ -71,6 +72,9 @@ else
     fi
 fi
 
+# 清理输入缓冲区
+while read -r -t 0; do :; done
+
 # 提示用户输入后端主域名，并进行格式验证
 while true; do
     read -p "请输入后端绑定使用的主域名（格式http(s)://xx.xx.xx，不带/）: " backend_domain
@@ -97,7 +101,7 @@ read -p "请输入哈希值: " hash_value
 # 在 docker-compose.yml 文件最后面添加内容
 cat <<EOF >> docker-compose.yml
 
-shareflowadmin:
+  shareflowadmin:
     image: simkinhu/shareflowadmin:latest
     restart: always
     ports:
