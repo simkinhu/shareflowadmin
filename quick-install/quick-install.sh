@@ -71,12 +71,15 @@ else
     fi
 fi
 
-# 提示用户输入后端主域名
-read -p "请输入后端绑定使用的主域名（格式http(s)://xx.xx.xx，不带/）: " backend_domain
-if [[ ! "$backend_domain" =~ ^https?://[a-zA-Z0-9.-]+$ ]]; then
-    echo "输入的后端主域名格式不正确。"
-    exit 1
-fi
+# 提示用户输入后端主域名，并进行格式验证
+while true; do
+    read -p "请输入后端绑定使用的主域名（格式http(s)://xx.xx.xx，不带/）: " backend_domain
+    if [[ "$backend_domain" =~ ^https?://[a-zA-Z0-9.-]+$ ]]; then
+        break
+    else
+        echo "输入的后端主域名格式不正确，请重新输入。"
+    fi
+done
 
 # 更新 config.json 中的 VITE_API_BASE_URL
 config_file="./list/config.json"
@@ -155,4 +158,5 @@ echo "--- 请等待容器启动完成"
 echo "--- 后台用户名：admin"
 echo "--- 后台密码：admin123"
 echo "--- 后台地址：${backend_domain}/shareadmin"
+echo "---提示：后台地址解析并反向代理到: http://127.0.0.1:8311 才可访问"
 echo "--------------------------------------"
