@@ -21,6 +21,7 @@ else
     echo "已创建目录 '$dir_name' 并设置权限为 755。"
 fi
 cd shareflowadmin
+rm - rf dist/config.json
 mv dist/* ../list
 cd ..
 chmod -R 755 list
