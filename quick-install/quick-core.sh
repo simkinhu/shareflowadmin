@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-## 克隆仓库到本地
+# 克隆仓库到本地
 echo "clone repository..."
 git clone https://github.com/simkinhu/shareflowadmin.git shareflowadmin
 
@@ -152,7 +152,6 @@ cat <<EOF >> docker-compose.yml
       SHARE_MYSQLLOG_USER: share
       # 后台内部mysql监控密码
       SHARE_MYSQLLOG_PWD: 123456
-
 EOF
 
 # 清理工作目录
