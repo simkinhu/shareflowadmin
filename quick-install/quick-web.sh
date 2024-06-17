@@ -67,7 +67,6 @@ else
     fi
 fi
 
-clear
 # 获取用户输入的域名
 read -p "请输入新的域名 (例如：http(s)://example.com)结尾不带/: " new_domain
 
