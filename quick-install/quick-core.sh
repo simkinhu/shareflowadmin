@@ -73,6 +73,7 @@ else
     fi
 fi
 
+clear
 # 提示用户输入后端主域名，并进行格式验证
 while true; do
     read -p "请输入后端绑定使用的主域名（格式http(s)://xx.xx.xx，不带/）: " backend_domain
@@ -141,7 +142,7 @@ cat <<EOF >> docker-compose.yml
       # 默认不要更改，这个是share后台地址，批量添加账户需要
       SHARE_ADMIN_URL: http://chatgpt-share-server:8001
       # 设置的后台秘钥，批量添加账户需要 详情：https://chatgpt-share-server.xyhelper.cn/config/apiauth.html
-      SHARE_ADMIN_AUTH: 723179227
+      SHARE_ADMIN_AUTH: share后台token值
       # 生成的兑换码的长度（不包含下面CDK的前缀）
       SHARE_CDK_LEN: 10
       # 生成的兑换码的前缀
