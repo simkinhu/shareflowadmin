@@ -1,5 +1,5 @@
 # 属Xyhelper下项目ChatGPT-Share-Server系统外部接入的管理系统
-项目地址：[chatgpt-share-server](https://github.com/xyhelper/chatgpt-share-server) 感谢xyhelper大佬的辛勤付出，敬礼！！！
+项目地址：[chatgpt-share-server](https://github.com/xyhelper/chatgpt-share-server-deploy) 感谢xyhelper大佬的辛勤付出，敬礼！！！
 
 # ShareFlow Admin（付费版本）
 
