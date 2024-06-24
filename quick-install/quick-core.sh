@@ -153,6 +153,18 @@ cat <<EOF >> docker-compose.yml
       SHARE_MYSQLLOG_USER: share
       # 后台内部mysql监控密码
       SHARE_MYSQLLOG_PWD: 123456
+      # 邮件发送昵称
+      SHARE_MAIL_NAME: 输入名称
+      # 邮件发送是否开启SSL
+      SHARE_MAIL_SSL: true
+      # 邮件服务器地址
+      SHARE_MAIL_HOST: smtp.163.com
+      # 邮件服务器端口
+      SHARE_MAIL_PORT: 465
+      # 邮件服务邮箱
+      SHARE_MAIL_USERMAIL: demo@qq.com
+      # 邮件服务器密码
+      SHARE_MAIL_USERPWD: 123456
 EOF
 
 # 清理工作目录
