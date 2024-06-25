@@ -72,7 +72,7 @@ fi
 clear
 
 # 获取用户输入的域名
-read -p "请输入新的域名 (例如：http(s)://example.com 结尾不带 /): " new_domain
+read -p "请输入后端接口绑定使用的域名(例如：http(s)://example.com 结尾不带 /): " new_domain
 
 # 替换 list 目录下 config.json 里面的域名
 config_file="./list/config.json"
