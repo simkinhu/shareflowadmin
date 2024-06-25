@@ -1,4 +1,4 @@
 {
-  "VITE_API_BASE_URL": "https://你的后台地址",
+  "VITE_API_BASE_URL": "https://loc.lod.com",
   "VITE_BASE_URL": "/list/"
 }
