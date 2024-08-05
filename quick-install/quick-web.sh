@@ -19,11 +19,28 @@ else
     chmod 755 "$dir_name"
 fi
 
-# 移动文件
-echo "正在移动文件从 'shareflowadmin/dist' 到 '$dir_name'..."
-cd shareflowadmin
-mv dist/* ../list
-cd ..
+# 提示用户选择主题版本
+echo "请选择主题版本："
+echo "1. V1版本：在线支付|卡密兑换|邀请好友"
+echo "2. V2版本：无在线支付|邀请好友"
+read -p "请输入数字选择: " theme_version
+
+# 根据用户选择移动文件
+if [ "$theme_version" == "1" ]; then
+    echo "正在移动文件从 'shareflowadmin/distone' 到 '$dir_name'..."
+    cd shareflowadmin
+    mv distone/* ../list
+    cd ..
+elif [ "$theme_version" == "2" ]; then
+    echo "正在移动文件从 'shareflowadmin/disttwo' 到 '$dir_name'..."
+    cd shareflowadmin
+    mv disttwo/* ../list
+    cd ..
+else
+    echo "无效的选择，请重新运行脚本并输入有效的数字。"
+    exit 1
+fi
+
 chmod -R 755 list
 
 # 检查和更新 docker-compose.yml
