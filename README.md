@@ -28,3 +28,17 @@
 - **后端**： [演示站后端](https://sadmin.3377ai.com/shareadmin)
   - **演示后台账户**：`admin`
   - **演示后台密码**：`admin123`
+
+
+## 全新安装脚本：
+```bash
+wget -O quick-core.sh https://raw.githubusercontent.com/simkinhu/shareflowadmin/main/quick-install/quick-core.sh && sudo bash quick-core.sh
+```
+## 后端系统更新，进入share目录直接执行./deploy.sh拉取镜像更新即可
+```bash
+./deploy.sh
+```
+## 前端替换最新版脚本:（如果遇到接口请求错误， 请检查list目录下config.jsonURL是否为你的后端URL）
+```bash
+wget -O quick-web.sh https://raw.githubusercontent.com/simkinhu/shareflowadmin/main/quick-install/quick-web.sh && sudo bash quick-web.sh
+```
