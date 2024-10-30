@@ -23,6 +23,7 @@ fi
 echo "请选择主题版本："
 echo "1. V1版本：在线支付|卡密兑换|邀请好友"
 echo "2. V2版本：无在线支付|邀请好友"
+echo "3. V3版本：在线支付|卡密兑换|邀请好友|轻量化"
 read -p "请输入数字选择: " theme_version
 
 # 根据用户选择移动文件
@@ -35,6 +36,11 @@ elif [ "$theme_version" == "2" ]; then
     echo "正在移动文件从 'shareflowadmin/disttwo' 到 '$dir_name'..."
     cd shareflowadmin
     mv disttwo/* ../list
+    cd ..
+elif [ "$theme_version" == "3" ]; then
+    echo "正在移动文件从 'shareflowadmin/distthree' 到 '$dir_name'..."
+    cd shareflowadmin
+    mv distthree/* ../list
     cd ..
 else
     echo "无效的选择，请重新运行脚本并输入有效的数字。"
