@@ -24,10 +24,7 @@
 详细介绍请参阅 [ShareFlow Admin 付费版介绍](https://mxlizdp0t8q.feishu.cn/docx/NjBZdHwr9ocMJMxOmXlcVxCqn0f?from=from_copylink)
 
 ### 演示站
-- **前端**： [演示站前端](https://swg.3377ai.com/list)
-- **后端**： [演示站后端](https://sadmin.3377ai.com/shareadmin)
-  - **演示后台账户**：`admin`
-  - **演示后台密码**：`admin123`
+- **前端**： [演示站前端](https://3388ai.com/)
 
 
 ## 全新安装脚本：
